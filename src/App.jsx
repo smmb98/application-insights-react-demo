@@ -68,6 +68,16 @@ const App = () => {
     fetch("https://httpbin.org/status/200");
   }
 
+  const [data, setData] = useState("");
+
+  useEffect(() => {
+    (async function () {
+      const { text } = await (await fetch(`/api/httpRequest`)).json();
+      setData(text);
+    })();
+    console.log(data);
+  });
+
   return (
     <BrowserRouter>
       <TelemetryProvider
