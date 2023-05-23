@@ -4,12 +4,21 @@ import viteLogo from "/vite.svg";
 import "./App.css";
 import TelemetryProvider from "./telemetry-provider";
 import { getAppInsights } from "./TelemetryService";
-import { SeverityLevel } from "@microsoft/applicationinsights-web";
+import {
+  SeverityLevel,
+  ApplicationInsights,
+} from "@microsoft/applicationinsights-web";
 
 function App() {
   const [count, setCount] = useState(0);
   const [data, setData] = useState("");
-  let appInsights = getAppInsights();
+  // let appInsights = null;
+  // let appInsights = getAppInsights();
+  const appInsights = new ApplicationInsights({
+    config: {
+      instrumentationKey: "8b4f377e-de4c-4689-8bd1-7a1895cc72a3",
+    },
+  });
 
   function trackException() {
     appInsights.trackException({
@@ -29,16 +38,23 @@ function App() {
     appInsights.trackEvent({ name: "some event" });
   }
 
-  function throwError() {
-    console.log("throwError");
-    throw Error("some error");
-    let foo = {
-      field: { bar: "value" },
-    };
+  // function throwError() {
+  //   try {
+  //     throw new Error("This is a simulated error.");
+  //   } catch (error) {
+  //     // Log the error
+  //     appInsights.trackException({ exception: error });
+  //   }
 
-    // This will crash the app; the error will show up in the Azure Portal
-    return foo.field.bar;
-  }
+  //   // console.log("throwError");
+  //   // throw Error("some error");
+  //   let foo = {
+  //     field: { bar: "value" },
+  //   };
+
+  //   // This will crash the app; the error will show up in the Azure Portal
+  //   return foo.field.bar;
+  // }
 
   function ajaxRequest() {
     let xhr = new XMLHttpRequest();
@@ -50,7 +66,6 @@ function App() {
     fetch("https://httpbin.org/status/200");
   }
 
-  // let appInsights = null;
   useEffect(() => {
     (async function () {
       const { text } = await (await fetch(`/api/message`)).json();
@@ -62,7 +77,7 @@ function App() {
     <TelemetryProvider
       instrumentationKey="8b4f377e-de4c-4689-8bd1-7a1895cc72a3"
       after={() => {
-        appInsights = getAppInsights();
+        // appInsights = getAppInsights();
       }}
     >
       <div>
@@ -85,7 +100,7 @@ function App() {
       <button onClick={trackException}>Track Exception</button>
       <button onClick={trackEvent}>Track Event</button>
       <button onClick={trackTrace}>Track Trace</button>
-      <button onClick={throwError}>Autocollect an Error</button>
+      {/* <button onClick={throwError}>Autocollect an Error</button> */}
       <button onClick={ajaxRequest}>
         Autocollect a Dependency (XMLHttpRequest)
       </button>
