@@ -91,6 +91,9 @@ const App = () => {
           <Route exact path="/" component={Home} />
           <Route path="/about" component={About} />
         </div>
+        <div>
+          <h1>TESTING</h1>
+        </div>
         <div className="App">
           <button onClick={trackException}>Track Exception</button>
           <button onClick={trackEvent}>Track Event</button>
