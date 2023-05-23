@@ -8,18 +8,19 @@ import {
   SeverityLevel,
   ApplicationInsights,
 } from "@microsoft/applicationinsights-web";
+// let appInsights = null;
 
 function App() {
   const [count, setCount] = useState(0);
   const [data, setData] = useState("");
-  // let appInsights = null;
+  let appInsights = null;
   // let appInsights = getAppInsights();
-  const appInsights = new ApplicationInsights({
-    config: {
-      instrumentationKey: "8b4f377e-de4c-4689-8bd1-7a1895cc72a3",
-    },
-  });
-  appInsights.loadAppInsights();
+  // const appInsights = new ApplicationInsights({
+  //   config: {
+  //     instrumentationKey: "8b4f377e-de4c-4689-8bd1-7a1895cc72a3",
+  //   },
+  // });
+  // appInsights.loadAppInsights();
   function trackException() {
     // appInsights.trackException({
     //   error: new Error("some error"),
@@ -75,15 +76,15 @@ function App() {
   //   return foo.field.bar;
   // }
 
-  function ajaxRequest() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://httpbin.org/status/200");
-    xhr.send();
-  }
+  // function ajaxRequest() {
+  //   let xhr = new XMLHttpRequest();
+  //   xhr.open("GET", "https://httpbin.org/status/200");
+  //   xhr.send();
+  // }
 
-  function fetchRequest() {
-    fetch("https://httpbin.org/status/200");
-  }
+  // function fetchRequest() {
+  //   fetch("https://httpbin.org/status/200");
+  // }
 
   useEffect(() => {
     (async function () {
@@ -96,7 +97,7 @@ function App() {
     <TelemetryProvider
       instrumentationKey="8b4f377e-de4c-4689-8bd1-7a1895cc72a3"
       after={() => {
-        // appInsights = getAppInsights();
+        appInsights = getAppInsights();
       }}
     >
       <div>
@@ -120,11 +121,11 @@ function App() {
       <button onClick={trackEvent}>Track Event</button>
       <button onClick={trackTrace}>Track Trace</button>
       {/* <button onClick={throwError}>Autocollect an Error</button> */}
-      <button onClick={ajaxRequest}>
+      {/* <button onClick={ajaxRequest}>
         Autocollect a Dependency (XMLHttpRequest)
       </button>
-      <button onClick={fetchRequest}>Autocollect a dependency (Fetch)</button>
-      <div>{data}</div>
+      <button onClick={fetchRequest}>Autocollect a dependency (Fetch)</button> */}
+      {/* <div>{data}</div> */}
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
       </p>
