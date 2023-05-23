@@ -21,17 +21,27 @@ function App() {
   });
 
   function trackException() {
+    // appInsights.trackException({
+    //   error: new Error("some error"),
+    //   severityLevel: SeverityLevel.Error,
+    // });
+
     appInsights.trackException({
-      error: new Error("some error"),
-      severityLevel: SeverityLevel.Error,
+      exception: new Error("some error"),
+      // severityLevel: SeverityLevel.Error,
     });
   }
 
   function trackTrace() {
+  
     appInsights.trackTrace({
       message: "some trace",
-      severityLevel: SeverityLevel.Information,
+      // severityLevel: SeverityLevel.Information,
     });
+    // appInsights.trackTrace({
+    //   message: "some trace",
+    //   severityLevel: SeverityLevel.Information,
+    // });
   }
 
   function trackEvent() {
