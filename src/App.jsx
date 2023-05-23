@@ -19,21 +19,29 @@ function App() {
       instrumentationKey: "8b4f377e-de4c-4689-8bd1-7a1895cc72a3",
     },
   });
-
+  appInsights.loadAppInsights();
   function trackException() {
     // appInsights.trackException({
     //   error: new Error("some error"),
     //   severityLevel: SeverityLevel.Error,
     // });
 
-    appInsights.trackException({
-      exception: new Error("some error"),
-      // severityLevel: SeverityLevel.Error,
-    });
+    // appInsights.trackException({
+    //   exception: new Error("some error"),
+    //   // severityLevel: SeverityLevel.Error,
+    // });
+
+    try {
+      console.log("trackException");
+      throw new Error("This is a simulated error.");
+    } catch (error) {
+      // Log the error
+      appInsights.trackException({ exception: error });
+    }
   }
 
   function trackTrace() {
-  
+    console.log("trackTrace");
     appInsights.trackTrace({
       message: "some trace",
       // severityLevel: SeverityLevel.Information,
@@ -45,6 +53,7 @@ function App() {
   }
 
   function trackEvent() {
+    console.log("trackEvent");
     appInsights.trackEvent({ name: "some event" });
   }
 
