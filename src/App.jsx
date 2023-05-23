@@ -13,7 +13,7 @@ import {
 function App() {
   const [count, setCount] = useState(0);
   const [data, setData] = useState("");
-  let appInsights = null;
+  let appInsights = getAppInsights();
   // let appInsights = getAppInsights();
   // const appInsights = new ApplicationInsights({
   //   config: {
