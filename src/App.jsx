@@ -1,116 +1,52 @@
-import React from "react";
-import { BrowserRouter, Link, Route } from "react-router-dom";
-import { SeverityLevel } from "@microsoft/applicationinsights-web";
+import { useState, useEffect } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
 import "./App.css";
-import { getAppInsights } from "./TelemetryService";
 import TelemetryProvider from "./telemetry-provider";
-import { useEffect, useState } from "react";
+import { getAppInsights } from "./TelemetryService";
+import { SeverityLevel } from "@microsoft/applicationinsights-web";
 
-const Home = () => (
-  <div>
-    <h2>Home Page</h2>
-  </div>
-);
-
-const About = () => (
-  <div>
-    <h2>About Page</h2>
-  </div>
-);
-
-const Header = () => (
-  <ul>
-    <li>
-      <Link to="/">Home</Link>
-    </li>
-    <li>
-      <Link to="/about">About</Link>
-    </li>
-  </ul>
-);
-
-const App = () => {
-  let appInsights = null;
-
-  function trackException() {
-    appInsights.trackException({
-      error: new Error("some error"),
-      severityLevel: SeverityLevel.Error,
-    });
-  }
-
-  function trackTrace() {
-    appInsights.trackTrace({
-      message: "some trace",
-      severityLevel: SeverityLevel.Information,
-    });
-  }
-
-  function trackEvent() {
-    appInsights.trackEvent({ name: "some event" });
-  }
-
-  function throwError() {
-    let foo = {
-      field: { bar: "value" },
-    };
-
-    // This will crash the app; the error will show up in the Azure Portal
-    return foo.field.bar;
-  }
-
-  function ajaxRequest() {
-    let xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://httpbin.org/status/200");
-    xhr.send();
-  }
-
-  function fetchRequest() {
-    fetch("https://httpbin.org/status/200");
-  }
-
+function App() {
+  const [count, setCount] = useState(0);
   const [data, setData] = useState("");
-
+  let appInsights = null;
   useEffect(() => {
     (async function () {
       const { text } = await (await fetch(`/api/message`)).json();
       setData(text);
     })();
-    console.log(data);
   });
 
   return (
-    <BrowserRouter>
-      <TelemetryProvider
-        instrumentationKey="a036c503-8665-4269-a2f2-fec55fa6533e"
-        after={() => {
-          appInsights = getAppInsights();
-        }}
-      >
-        <div>
-          <Header />
-          <Route exact path="/" component={Home} />
-          <Route path="/about" component={About} />
-        </div>
-        <div>
-          <h1>TESTING</h1>
-        </div>
-        <div className="App">
-          <button onClick={trackException}>Track Exception</button>
-          <button onClick={trackEvent}>Track Event</button>
-          <button onClick={trackTrace}>Track Trace</button>
-          <button onClick={throwError}>Autocollect an Error</button>
-          <button onClick={ajaxRequest}>
-            Autocollect a Dependency (XMLHttpRequest)
-          </button>
-          <button onClick={fetchRequest}>
-            Autocollect a dependency (Fetch)
-          </button>
-          <div>{data}</div>
-        </div>
-      </TelemetryProvider>
-    </BrowserRouter>
+    <TelemetryProvider
+      instrumentationKey="a036c503-8665-4269-a2f2-fec55fa6533e"
+      after={() => {
+        appInsights = getAppInsights();
+      }}
+    >
+      <div>
+        <a href="https://vitejs.dev" target="_blank">
+          <img src={viteLogo} className="logo" alt="Vite logo" />
+        </a>
+        <a href="https://react.dev" target="_blank">
+          <img src={reactLogo} className="logo react" alt="React logo" />
+        </a>
+      </div>
+      <h1>Vite + React</h1>
+      <div className="card">
+        <button onClick={() => setCount((count) => count + 1)}>
+          count is {count}
+        </button>
+        <p>
+          Edit <code>src/App.jsx</code> and save to test HMR
+        </p>
+      </div>
+      <div>{data}</div>
+      <p className="read-the-docs">
+        Click on the Vite and React logos to learn more
+      </p>
+    </TelemetryProvider>
   );
-};
+}
 
 export default App;
