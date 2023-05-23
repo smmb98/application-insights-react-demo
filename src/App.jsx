@@ -4,6 +4,7 @@ import { SeverityLevel } from "@microsoft/applicationinsights-web";
 import "./App.css";
 import { getAppInsights } from "./TelemetryService";
 import TelemetryProvider from "./telemetry-provider";
+import { useEffect, useState } from "react";
 
 const Home = () => (
   <div>
