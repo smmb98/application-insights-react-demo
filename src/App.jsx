@@ -72,7 +72,7 @@ const App = () => {
 
   useEffect(() => {
     (async function () {
-      const { text } = await (await fetch(`/api/httpRequest`)).json();
+      const { text } = await (await fetch(`/api/message`)).json();
       setData(text);
     })();
     console.log(data);
@@ -102,6 +102,7 @@ const App = () => {
           <button onClick={fetchRequest}>
             Autocollect a dependency (Fetch)
           </button>
+          <div>{data}</div>
         </div>
       </TelemetryProvider>
     </BrowserRouter>
