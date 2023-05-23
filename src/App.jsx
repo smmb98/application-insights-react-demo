@@ -9,6 +9,7 @@ import { SeverityLevel } from "@microsoft/applicationinsights-web";
 function App() {
   const [count, setCount] = useState(0);
   const [data, setData] = useState("");
+  let appInsights = getAppInsights();
 
   function trackException() {
     appInsights.trackException({
@@ -29,6 +30,8 @@ function App() {
   }
 
   function throwError() {
+    console.log("throwError");
+    throw Error("some error");
     let foo = {
       field: { bar: "value" },
     };
@@ -47,7 +50,7 @@ function App() {
     fetch("https://httpbin.org/status/200");
   }
 
-  let appInsights = null;
+  // let appInsights = null;
   useEffect(() => {
     (async function () {
       const { text } = await (await fetch(`/api/message`)).json();
