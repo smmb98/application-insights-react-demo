@@ -9,6 +9,44 @@ import { SeverityLevel } from "@microsoft/applicationinsights-web";
 function App() {
   const [count, setCount] = useState(0);
   const [data, setData] = useState("");
+
+  function trackException() {
+    appInsights.trackException({
+      error: new Error("some error"),
+      severityLevel: SeverityLevel.Error,
+    });
+  }
+
+  function trackTrace() {
+    appInsights.trackTrace({
+      message: "some trace",
+      severityLevel: SeverityLevel.Information,
+    });
+  }
+
+  function trackEvent() {
+    appInsights.trackEvent({ name: "some event" });
+  }
+
+  function throwError() {
+    let foo = {
+      field: { bar: "value" },
+    };
+
+    // This will crash the app; the error will show up in the Azure Portal
+    return foo.field.bar;
+  }
+
+  function ajaxRequest() {
+    let xhr = new XMLHttpRequest();
+    xhr.open("GET", "https://httpbin.org/status/200");
+    xhr.send();
+  }
+
+  function fetchRequest() {
+    fetch("https://httpbin.org/status/200");
+  }
+
   let appInsights = null;
   useEffect(() => {
     (async function () {
@@ -19,7 +57,7 @@ function App() {
 
   return (
     <TelemetryProvider
-      instrumentationKey="a036c503-8665-4269-a2f2-fec55fa6533e"
+      instrumentationKey="8b4f377e-de4c-4689-8bd1-7a1895cc72a3"
       after={() => {
         appInsights = getAppInsights();
       }}
@@ -41,6 +79,14 @@ function App() {
           Edit <code>src/App.jsx</code> and save to test HMR
         </p>
       </div>
+      <button onClick={trackException}>Track Exception</button>
+      <button onClick={trackEvent}>Track Event</button>
+      <button onClick={trackTrace}>Track Trace</button>
+      <button onClick={throwError}>Autocollect an Error</button>
+      <button onClick={ajaxRequest}>
+        Autocollect a Dependency (XMLHttpRequest)
+      </button>
+      <button onClick={fetchRequest}>Autocollect a dependency (Fetch)</button>
       <div>{data}</div>
       <p className="read-the-docs">
         Click on the Vite and React logos to learn more
