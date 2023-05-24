@@ -21,6 +21,8 @@ function App() {
       </header>
       <AppInsightsContext.Provider value={reactPlugin}>
         <TestComponent />
+        <br />
+        <TestPage></TestPage>
       </AppInsightsContext.Provider>
     </div>
   );
