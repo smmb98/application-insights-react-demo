@@ -7,7 +7,10 @@ import { BrowserRouter } from "react-router-dom";
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <Routes>
+        <Route path="/" element={<App />} />
+        <Route path="/test" element={<TestPage />} />
+      </Routes>
     </BrowserRouter>
   </React.StrictMode>
 );
