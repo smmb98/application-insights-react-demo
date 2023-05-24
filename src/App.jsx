@@ -1,13 +1,16 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { AppInsightsContext } from "@microsoft/applicationinsights-react-js";
 import { reactPlugin } from "./ApplicationInsightsService";
 import TestComponent from "./TestComponent";
 import "./App.css";
 
 function App() {
+  const [data, setData] = useState("");
+
   useEffect(() => {
     (async function () {
       const { text } = await (await fetch(`/api/message`)).json();
+      setData(text);
     })();
   });
   return (
