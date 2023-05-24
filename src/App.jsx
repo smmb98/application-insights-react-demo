@@ -14,7 +14,11 @@ function App() {
   const [count, setCount] = useState(0);
   const [data, setData] = useState("");
   // let appInsights = getAppInsights();
-  let appInsights = null;
+  let appInsights = getAppInsights();
+
+  if (appInsights) {
+    console.log("appInsights is now initialized");
+  }
   // const appInsights = new ApplicationInsights({
   //   config: {
   //     instrumentationKey: "8b4f377e-de4c-4689-8bd1-7a1895cc72a3",
