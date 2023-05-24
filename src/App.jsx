@@ -3,6 +3,7 @@ import { AppInsightsContext } from "@microsoft/applicationinsights-react-js";
 import { reactPlugin } from "./ApplicationInsightsService";
 import TestComponent from "./TestComponent";
 import "./App.css";
+import TestPage from "./TestPage";
 
 function App() {
   const [data, setData] = useState("");
