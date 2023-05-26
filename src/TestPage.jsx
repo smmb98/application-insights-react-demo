@@ -22,9 +22,9 @@ function TestPage() {
     appInsights.trackEvent({ name: "some event" });
   }
 
-  function flush() {
-    appInsights.flush();
-  }
+  // function flush() {
+  //   appInsights.flush();
+  // }
 
   function throwError() {
     throw new Error("test error");
@@ -43,10 +43,10 @@ function TestPage() {
   return (
     <div className="App">
       <h1>Test Page</h1>
-      <div>
+      {/* <div>
         <div>Flush</div>
         <button onClick={flush}>Flush</button>
-      </div>
+      </div> */}
       <div>
         <div>Test TrackEvent</div>
         <button onClick={trackEvent}>Track Event</button>
